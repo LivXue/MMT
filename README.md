@@ -33,3 +33,21 @@ __LSMDC-E__:
 2. Run `data/LSMDC-E/prepro_vocab.py`.
 3. Run `data/embed_vocab.py` and make sure the parameters are set to *LSMDC-E*.
 
+## Process
+1. Set parameters in `utils/opts.py`.
+2. Run `train.py` to train a model.
+3. Run `eval.py` to evaluate a model.
+
+## Citation
+If you find our work or the code useful, please consider cite our paper using:
+```bash
+@inproceedings{10.1145/3503161.3548022,
+author = {Xue, Dizhan and Qian, Shengsheng and Fang, Quan and Xu, Changsheng},
+title = {MMT: Image-Guided Story Ending Generation with Multimodal Memory Transformer},
+year = {2022},
+doi = {10.1145/3503161.3548022},
+booktitle = {Proceedings of the 30th ACM International Conference on Multimedia},
+pages = {750–758},
+numpages = {9},
+}
+```
