@@ -5,8 +5,8 @@ import argparse
 def parse_opt():
     parser = argparse.ArgumentParser()
     # Data input settings
-    parser.add_argument('--dataset', type=str, default='VIST',
-                        help='dataset: VIST / LSMDC')
+    parser.add_argument('--dataset', type=str, default='VIST-E',
+                        help='dataset: VIST-E / LSMDC-E')
     parser.add_argument('--data_in_memory', action='store_true',
                         help='True if we want to save the features in memory')
     parser.add_argument('--start_from', type=str, default=None,
@@ -128,7 +128,7 @@ def parse_opt():
     args.input_json = './data/' + args.dataset + '/data_res.json'
     args.input_fc_dir = ''
     args.input_conv_dir = './data/' + args.dataset + '/image_features'
-    args.conv_ext = '.npz' if args.dataset == 'VIST' else '.npy'
+    args.conv_ext = '.npz' if args.dataset == 'VIST-E' else '.npy'
     args.input_box_dir = ''
     args.input_label_h5 = './data/' + args.dataset + '/data_tgt_label.h5'
     args.input_src_h5 = './data/' + args.dataset + '/data_src_label.h5'
@@ -137,7 +137,7 @@ def parse_opt():
     args.dec_emb_path = './data/' + args.dataset + '/embedding/embedding_dec.pt'
 
     # Maximum length of sentences
-    args.seq_length = 40 if args.dataset == 'VIST' else 20
+    args.seq_length = 40 if args.dataset == 'VIST-E' else 20
 
     # Check if args are valid
     assert args.batch_size > 0, "batch_size should be greater than 0"
