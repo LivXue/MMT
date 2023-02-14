@@ -10,7 +10,7 @@ from stanfordcorenlp import StanfordCoreNLP
 from tqdm import tqdm
 
 
-path = 'stanford-corenlp-4.2.2'
+path = '../stanford-corenlp-4.2.2'
 nlp = StanfordCoreNLP(path)
 print("Successfully loaded {} models!".format(path))
 
@@ -275,9 +275,8 @@ def encode_story_last(storys, params, wtoi):
 
 def main(params):
     # create the vocab
-    #videos, groups, movie_ids, vocab = collect_story(params)
-    #story = story_pro(videos, groups, params)
-    story = json.load(open("story.json"))
+    videos, groups, movie_ids, vocab = collect_story(params)
+    story = story_pro(videos, groups, params)
 
     vocab = build_vocab(story, params)
     itow = {i: w for i, w in enumerate(vocab)}
