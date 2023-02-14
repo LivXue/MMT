@@ -98,8 +98,6 @@ def build_vocab(storys, params):
             counts[w] = counts.get(w, 0) + 1
     vocab = ['[SOS]']
     vocab.extend([w for w, n in counts.items() if n > count_thr])
-
-    # lets now produce the final annotations
     vocab.append('[UNK]')
 
     for story in storys:
@@ -115,7 +113,7 @@ def build_vocab(storys, params):
     return vocab
 
 
-def story_pro(videos, groups, params):
+def story_pro(videos, groups):
     story = []
     for ginfo in tqdm(groups):
         if len(ginfo['videos']) != 5:
@@ -130,28 +128,16 @@ def story_pro(videos, groups, params):
         last_seg_id = videos[ginfo['videos'][4]]['clip']
         split = videos[ginfo['videos'][4]]['split']
 
-        story1_taken = nlp.word_tokenize(story1)
-        story2_taken = nlp.word_tokenize(story2)
-        story3_taken = nlp.word_tokenize(story3)
-        story4_taken = nlp.word_tokenize(story4)
-        story5_taken = nlp.word_tokenize(story5)
-        story_token_list = [story1_taken, story2_taken, story3_taken, story4_taken, story5_taken]
-
-        story1_depen = story1[:min(len(story1), params['max_length'])]
-        story2_depen = story2[:min(len(story2), params['max_length'])]
-        story3_depen = story3[:min(len(story3), params['max_length'])]
-        story4_depen = story4[:min(len(story4), params['max_length'])]
-        sent1 = nlp.dependency_parse(story1_depen)
-        sent2 = nlp.dependency_parse(story2_depen)
-        sent3 = nlp.dependency_parse(story3_depen)
-        sent4 = nlp.dependency_parse(story4_depen)
-        # sent5 = nlp.dependency_parse(story5)
-        depen_list = [sent1, sent2, sent3, sent4]
+        story1_token = nlp.word_tokenize(story1)
+        story2_token = nlp.word_tokenize(story2)
+        story3_token = nlp.word_tokenize(story3)
+        story4_token = nlp.word_tokenize(story4)
+        story5_token = nlp.word_tokenize(story5)
+        story_token_list = [story1_token, story2_token, story3_token, story4_token, story5_token]
 
         story.append({'story_id': ginfo['id'],
                       'story_token_list': story_token_list,
-                      'stories_four': stories_four,  # story_rep_four,
-                      'sent_depen': depen_list,
+                      'stories_four': stories_four,
                       'stories_last': story5,
                       'last_img_id': last_seg_id,
                       'split': split})
@@ -175,14 +161,12 @@ def build_src_vocab(storys, params):
 
     vocab = ['[UUD]']
     vocab.extend([w for w, n in counts.items() if n > count_thr])
-
-    # lets now produce the final annotations
     vocab.append('[UNK]')
     return vocab
 
 
 def encode_story_four(storys, params, src_wtoi):
-    max_length = 20
+    max_length = params['max_length']
     first = []
     second = []
     third = []
@@ -240,7 +224,7 @@ def encode_story_four(storys, params, src_wtoi):
 
 
 def encode_story_last(storys, params, wtoi):
-    max_length = 20
+    max_length = params['max_length']
     N = len(storys)
     M = len(storys)
 
@@ -276,7 +260,7 @@ def encode_story_last(storys, params, wtoi):
 def main(params):
     # create the vocab
     videos, groups, movie_ids, vocab = collect_story(params)
-    story = story_pro(videos, groups, params)
+    story = story_pro(videos, groups)
 
     vocab = build_vocab(story, params)
     itow = {i: w for i, w in enumerate(vocab)}
@@ -304,7 +288,7 @@ def main(params):
     f_lb.create_dataset('label_end_ix', dtype='uint32', data=label_end_ix)
     f_lb.create_dataset('label_length', dtype='uint32', data=label_length)
     f_lb.close()
-    print('Down f_lb')
+    print('Saved f_lb')
 
     story_four = []
     for i, imgs in enumerate(story):
@@ -331,7 +315,6 @@ def main(params):
 
     with open(params['output_json'], 'w') as ff:
         json.dump(out, ff)
-    ff.close()
 
     # json.dump(out, open(params['output_json'], 'w'))
     print('wrote', params['output_json'])
