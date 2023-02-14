@@ -8,7 +8,7 @@
 
 - Python == 3.9
 - PyTorch == 1.12.1
-- stanfordcorenlp == 4.2.2
+- stanfordcorenlp == 3.9.1.1 with *stanford-corenlp-4.2.2*
 - transformers == 4.12.5
 - pycocoevalcap （https://github.com/sks3i/pycocoevalcap）
 
@@ -23,7 +23,7 @@ We utilize Glove embedding, please download the *glove.6b.300d.txt* and put it i
 
 __VIST-E__:
 1. Unzip *SIS-with-labels.tar.gz* to `data/VIST-E`.
-2. Unzip conv features in *resnet_features.zip* to a folder `data/VIST-E/image_features` without any subfolders..
+2. Unzip conv features in *resnet_features.zip* to a folder `data/VIST-E/image_features` without any subfolders.
 3. Run `data/annotations.py`.
 4. Run `data/img_feat_path.py `.
 5. Run `data/pro_label.py`.
