@@ -22,11 +22,12 @@ We utilize Glove embedding, please download the *glove.6b.300d.txt* and put it i
 ## Data preprocess
 
 __VIST-E__:
-1. Unzip *SIS-with-labels.tar.gz* to `data/VIST-E` and unzip *resnet_features.zip* to `data/VIST-E/image_features`.
-2. Run `data/annotations.py`.
-3. Run `data/img_feat_path.py `.
-4. Run `data/pro_label.py`.
-5. Run `data/embed_vocab.py` and make sure the parameters are set to *VIST-E*.
+1. Unzip *SIS-with-labels.tar.gz* to `data/VIST-E`.
+2. Unzip conv features in *resnet_features.zip* to a folder `data/VIST-E/image_features` without any subfolders..
+3. Run `data/annotations.py`.
+4. Run `data/img_feat_path.py `.
+5. Run `data/pro_label.py`.
+6. Run `data/embed_vocab.py` and make sure the parameters are set to *VIST-E*.
 
 __LSMDC-E__:
 1. Unzip all resnet features in *resnet152_200.zip* to a folder `data/LSMDC-E/image_features` without any subfolders.
