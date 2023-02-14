@@ -375,7 +375,6 @@ if __name__ == "__main__":
     parser.add_argument('--output_h5', default='data_tgt', help='')
     parser.add_argument('--output_story_four', default='data_four.json', help='')
     parser.add_argument('--output_h5_fe', default='data_src', help='')
-    parser.add_argument('--image_root', default='/home/chuan/HC/AREL-master', help='')
     parser.add_argument('--image_features', default='feat_num.json', help='')
 
     parser.add_argument('--max_length', default=40, type=int, help='')
