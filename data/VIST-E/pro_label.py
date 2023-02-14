@@ -10,7 +10,7 @@ import h5py
 from tqdm import tqdm
 from stanfordcorenlp import StanfordCoreNLP
 
-path = 'stanford-corenlp-4.2.2'
+path = '../stanford-corenlp-4.2.2'
 nlp = StanfordCoreNLP(path)
 print("Successfully loaded Stanford-CoreNLP models!")
 
@@ -53,66 +53,33 @@ def story_pro(annotations, params):
             story4 = annotations[i + 3][0]['text']
             story5 = annotations[i + 4][0]['text']
 
-            story1_rep = story1.replace(' .', '').replace(' !', '').replace(" ?", '').replace(" '", ' ').replace('[',
-                                                                                                                 '[ ').replace(
-                ']', ' ]')
-            story2_rep = story2.replace(' .', '').replace(' !', '').replace(" ?", '').replace(" '", ' ').replace('[',
-                                                                                                                 '[ ').replace(
-                ']', ' ]')
-            story3_rep = story3.replace(' .', '').replace(' !', '').replace(" ?", '').replace(" '", ' ').replace('[',
-                                                                                                                 '[ ').replace(
-                ']', ' ]')
-            story4_rep = story4.replace(' .', '').replace(' !', '').replace(" ?", '').replace(" '", ' ').replace('[',
-                                                                                                                 '[ ').replace(
-                ']', ' ]')
-            story5_rep = story5.replace(' .', '').replace(' !', '').replace(" ?", '').replace(" '", ' ').replace('[',
-                                                                                                                 '[ ').replace(
-                ']', ' ]')
+            story1_token = nlp.word_tokenize(story1)
+            story2_token = nlp.word_tokenize(story2)
+            story3_token = nlp.word_tokenize(story3)
+            story4_token = nlp.word_tokenize(story4)
+            story5_token = nlp.word_tokenize(story5)
 
-            story1_taken = nlp.word_tokenize(story1)
-            story2_taken = nlp.word_tokenize(story2)
-            story3_taken = nlp.word_tokenize(story3)
-            story4_taken = nlp.word_tokenize(story4)
-            story5_taken = nlp.word_tokenize(story5)
-
-            if len(story1_taken) > params['max_length']:
+            if len(story1_token) > params['max_length']:
                 count += 1
                 continue
-            if len(story2_taken) > params['max_length']:
+            if len(story2_token) > params['max_length']:
                 count += 1
                 continue
-            if len(story3_taken) > params['max_length']:
+            if len(story3_token) > params['max_length']:
                 count += 1
                 continue
-            if len(story4_taken) > params['max_length']:
+            if len(story4_token) > params['max_length']:
                 count += 1
                 continue
-            if len(story5_taken) > params['max_length']:
+            if len(story5_token) > params['max_length']:
                 count += 1
                 continue
-
-            sent1 = nlp.dependency_parse(story1_rep)
-            sent2 = nlp.dependency_parse(story2_rep)
-            sent3 = nlp.dependency_parse(story3_rep)
-            sent4 = nlp.dependency_parse(story4_rep)
-            sent5 = nlp.dependency_parse(story5_rep)
-
-            depen_list = [(sent1, order1), (sent2, order2), (sent3, order3), (sent4, order4), (sent5, order5)]
-            depen_list = sorted(depen_list, key=operator.itemgetter(1))
-
-            depen_list = [depen_list[0][0], depen_list[1][0], depen_list[2][0], depen_list[3][0]]
-
-            story_rep_list = [(story1_rep, order1), (story2_rep, order2), (story3_rep, order3),
-                              (story4_rep, order4), (story5_rep, order5)]
-            story_rep_list = sorted(story_rep_list, key=operator.itemgetter(1))
-            story_rep_four = [story_rep_list[0][0], story_rep_list[1][0], story_rep_list[2][0], story_rep_list[3][0]]
-            story_rep_last = [story_rep_list[4][0]]
 
             story_list = [(story1, order1), (story2, order2), (story3, order3), (story4, order4), (story5, order5)]
             story_list = sorted(story_list, key=operator.itemgetter(1))
 
-            story_token_list = [(story1_taken, order1), (story2_taken, order2), (story3_taken, order3),
-                                (story4_taken, order4), (story5_taken, order5)]
+            story_token_list = [(story1_token, order1), (story2_token, order2), (story3_token, order3),
+                                (story4_token, order4), (story5_token, order5)]
             story_token_list = sorted(story_token_list, key=operator.itemgetter(1))
 
             story_token_list = [story_token_list[0][0], story_token_list[1][0], story_token_list[2][0],
@@ -128,8 +95,6 @@ def story_pro(annotations, params):
             story.append({'story_id': story_id,
                           'story_token_list': story_token_list,
                           'stories_four': ordered_stories_four,#story_rep_four,
-                          # 'sent_rep': story_rep_four,
-                          'sent_depen': depen_list,
                           'stories_last': ordered_stories_last,
                           'last_img_id': order_last_img_id,
                           'split': annotations[i][0]['split']})
@@ -353,9 +318,6 @@ def main(params):
         jimg['id'] = img['last_img_id']
         jimg['story_id'] = img['story_id']
         jimg['story_end'] = img['stories_last']
-        # jimg['story_four'] = img['stories_four']
-        # jimg['sent_rep'] = img['sent_rep']
-        # jimg['sent_depen'] = img['sent_depen']
         out['images'].append(jimg)
 
     with open(params['output_json'], 'w') as ff:
