@@ -1,5 +1,7 @@
 # MMT: Image-guided Story Ending Generation with Multimodal Memory Transformer
 
+## __Repository unfinished__
+
 ##### Authors' code for paper "MMT: Image-guided Story Ending Generation with Multimodal Memory Transformer", ACMMM 2022.
 
 ## Prerequisites
