@@ -8,8 +8,9 @@
 - PyTorch == 1.12.1
 - stanfordcorenlp 4.2.2
 - transformers 4.12.5
+- pycocoevalcap （https://github.com/sks3i/pycocoevalcap）
 
-## Quick start:
+## Quick start
 
 - Dataset
 
@@ -19,7 +20,7 @@ For __VIST-E__ dataset, download the SIS-with-labels.tar.gz (https://visionandla
 
 For __LSMDC-E__ dataset, download LSMDC 2021 version (https://sites.google.com/site/describingmovies/home)
 
-We utilize the glove embedding, please download the *glove.6b.300d.txt* and put it in directory of `data/{dataset}/embedding`.
+We utilize the glove embedding, please download the *glove.6b.300d.txt* and put it in directory of `data/`.
 - Data preprocess
 
 Run following command:
