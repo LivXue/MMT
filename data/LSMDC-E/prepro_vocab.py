@@ -31,14 +31,14 @@ def collect_story(params):
                 for w in ws:
                     counts[w] = counts.get(w, 0) + 1
     print('max count', np.mean(max_len))
-    # cw = sorted([(count, w) for w, count in counts.items()], reverse=True)
+
     total_words = sum(counts.values())
     bad_words = [w for w, n in counts.items() if n <= count_thr]
     vocab = [w for w, n in counts.items() if n > count_thr]
     bad_count = sum(counts[w] for w in bad_words)
     print('number of bad words: %d/%d = %.2f%%' %
           (len(bad_words), len(counts), len(bad_words) * 100.0 / len(counts)))
-    print('number of words in vocab would be %d' % (len(vocab),))
+    print('number of words in vocab would be %d' % (len(vocab),))   # 25223
     print('number of UNKs: %d/%d = %.2f%%' %
           (bad_count, total_words, bad_count * 100.0 / total_words))
     # lets now produce the final annotations
@@ -271,7 +271,7 @@ def main(params):
     src_wtoi = {w: i for i, w in enumerate(src_vocab)}
 
     first, second, third, four = encode_story_four(story, params, src_wtoi)
-    # print('first_len: ', len(first))
+
     f_fe = h5py.File(params['output_h5_fe'] + '_label.h5', 'w')
     f_fe.create_dataset('sent1', dtype='uint32', data=first)
     f_fe.create_dataset('sent2', dtype='uint32', data=second)
@@ -281,7 +281,7 @@ def main(params):
     print('Saved story_four_wtoi!')
 
     L, label_start_ix, label_end_ix, label_length = encode_story_last(story, params, wtoi)
-    print('L_len:', len(L))
+    print('L_len:', len(L))     # 23633
     f_lb = h5py.File(params['output_h5'] + '_label.h5', 'w')
     f_lb.create_dataset('labels', dtype='uint32', data=L)
     f_lb.create_dataset('label_start_ix', dtype='uint32', data=label_start_ix)
@@ -295,7 +295,6 @@ def main(params):
         story_four.append(imgs['stories_four'])
     with open(params['output_story_four'], 'w') as f_four:
         json.dump(story_four, f_four)
-    f_four.close()
     print('Saved story_four!')
 
     out = {}
@@ -315,8 +314,6 @@ def main(params):
 
     with open(params['output_json'], 'w') as ff:
         json.dump(out, ff)
-
-    # json.dump(out, open(params['output_json'], 'w'))
     print('wrote', params['output_json'])
 
 
