@@ -20,9 +20,8 @@ if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = '6'
     parser = argparse.ArgumentParser()
     # Input paths
-    parser.add_argument('--model', type=str, default='./log_bert/model-best.pth', help='path to model to evaluate')
-    parser.add_argument('--cnn_model', type=str, default='resnet152', help='resnet101, resnet152')
-    parser.add_argument('--infos_path', type=str, default='./log/VIST/log_bert/infos_6-best.pkl', help='path to infos to evaluate')
+    parser.add_argument('--model', type=str, default='./log/VIST-E/log_bert/model-best.pth', help='path to model to evaluate')
+    parser.add_argument('--infos_path', type=str, default='./log/VIST-E/log_bert/infos_6-best.pkl', help='path to infos to evaluate')
     opts.add_eval_options(parser)
     opt = parser.parse_args()
 
