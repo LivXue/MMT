@@ -9,8 +9,6 @@ import h5py
 from stanfordcorenlp import StanfordCoreNLP
 from tqdm import tqdm
 
-from relation_to_adj_matrix import head_to_tree, tree_to_adj
-
 
 path = 'stanford-corenlp-4.2.2'
 nlp = StanfordCoreNLP(path)
@@ -275,40 +273,6 @@ def encode_story_last(storys, params, wtoi):
     return L, label_start_ix, label_end_ix, label_length
 
 
-def relation_to_adj_matrix(relation, sent):
-    head = head_to_tree(relation)
-
-    if sent == 'sent1':
-        adj_mat = tree_to_adj(20, head, sent)
-    if sent == 'sent2':
-        adj_mat = tree_to_adj(21, head, sent)
-    if sent == 'sent3':
-        adj_mat = tree_to_adj(22, head, sent)
-    if sent == 'sent4':
-        adj_mat = tree_to_adj(23, head, sent)
-
-    return adj_mat
-
-
-def adj_matrix(storys):
-    adj1, adj2, adj3, adj4 = [], [], [], []
-
-    for i, story in enumerate(storys):
-        depend = story['sent_depen']
-
-        sent1 = depend[0]
-        sent2 = depend[1]
-        sent3 = depend[2]
-        sent4 = depend[3]
-
-        adj1.append(relation_to_adj_matrix(sent1, 'sent1'))
-        adj2.append(relation_to_adj_matrix(sent2, 'sent2'))
-        adj3.append(relation_to_adj_matrix(sent3, 'sent3'))
-        adj4.append(relation_to_adj_matrix(sent4, 'sent4'))
-
-    return adj1, adj2, adj3, adj4
-
-
 def main(params):
     # create the vocab
     #videos, groups, movie_ids, vocab = collect_story(params)
@@ -332,15 +296,6 @@ def main(params):
     f_fe.create_dataset('sent4', dtype='uint32', data=four)
     f_fe.close()
     print('Saved story_four_wtoi!')
-
-    adj1, adj2, adj3, adj4 = adj_matrix(story)
-    f_adj = h5py.File(params['output_h5_adj'] + '_label.h5', 'w')
-    f_adj.create_dataset('adj1', dtype='uint32', data=adj1)
-    f_adj.create_dataset('adj2', dtype='uint32', data=adj2)
-    f_adj.create_dataset('adj3', dtype='uint32', data=adj3)
-    f_adj.create_dataset('adj4', dtype='uint32', data=adj4)
-    f_adj.close()
-    print('Saved adj!')
 
     L, label_start_ix, label_end_ix, label_length = encode_story_last(story, params, wtoi)
     print('L_len:', len(L))
@@ -399,7 +354,6 @@ if __name__ == "__main__":
     parser.add_argument('--output_h5', default='data_tgt', help='')
     parser.add_argument('--output_story_four', default='data_four.json', help='')
     parser.add_argument('--output_h5_fe', default='data_src', help='')
-    parser.add_argument('--output_h5_adj', default='data_adj', help='')
     parser.add_argument('--word_count_threshold_test', default=1, type=int, help='')
 
     args = parser.parse_args()
