@@ -4,10 +4,10 @@
 
 ## Prerequisites
 
-- Python 3.9
+- Python == 3.9
 - PyTorch == 1.12.1
-- stanfordcorenlp 4.2.2
-- transformers 4.12.5
+- stanfordcorenlp == 4.2.2
+- transformers == 4.12.5
 - pycocoevalcap （https://github.com/sks3i/pycocoevalcap）
 
 ## Quick start
