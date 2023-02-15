@@ -40,6 +40,25 @@ __LSMDC-E__:
 2. Run `train.py` to train a model.
 3. Run `eval.py` to evaluate a model.
 
+    __Recommended Settings__
+
+    VIST-E w BERT:
+    ```bash
+    python train.py --dataset VIST-E --use_bert True --num_head 4 --weight_decay 0 --grad_clip_value 0.5
+    ```
+    VIST-E w/o BERT:
+    ```bash
+    python train.py --dataset VIST-E --use_bert False --num_head 4 --weight_decay 0 --grad_clip_value 0.5
+    ```
+    LSMDC-E w BERT:
+    ```bash
+    python train.py --dataset LSMDC-E --use_bert True --num_head 8 --weight_decay 1e-5 --grad_clip_value 0.1
+    ```
+    LSMDC-E w/o BERT:
+    ```bash
+    python train.py --dataset LSMDC-E --use_bert False --num_head 8 --weight_decay 1e-5 --grad_clip_value 0.1
+    ```
+
 ## Citation
 If you find our work or the code useful, please consider cite our paper using:
 ```bash
