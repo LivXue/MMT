@@ -24,9 +24,9 @@ We utilize Glove embedding, please download the *glove.6b.300d.txt* and put it i
 __VIST-E__:
 1. Unzip *SIS-with-labels.tar.gz* to `data/VIST-E`.
 2. Unzip conv features in *resnet_features.zip* to a folder `data/VIST-E/image_features` without any subfolders.
-3. Run `data/annotations.py`.
-4. Run `data/img_feat_path.py `.
-5. Run `data/pro_label.py`.
+3. Run `data/VIST-E/annotations.py`.
+4. Run `data/VIST-E/img_feat_path.py `.
+5. Run `data/VIST-E/pro_label.py`.
 6. Run `data/embed_vocab.py` and make sure the parameters are set to *VIST-E*.
 
 __LSMDC-E__:
