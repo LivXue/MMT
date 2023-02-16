@@ -145,6 +145,8 @@ def train(opt):
         infos['epoch'] = epoch
         infos['loader_state_dict'] = loader.state_dict()
 
+        # TODO:
+        # Use split=test for easy start and use split=val for strict experiments
         eval_kwargs = {'split': 'test', 'dataset': opt.input_json}
         eval_kwargs.update(vars(opt))
         val_loss, predictions, lang_stats = eval_split(dp_model, lw_model, loader, eval_kwargs)
@@ -181,8 +183,7 @@ def train(opt):
 
 if __name__ == '__main__':
     opt = opts.parse_opt()
-    os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-    os.environ['CUDA_VISIBLE_DEVICES'] = "5"
+    os.environ['CUDA_VISIBLE_DEVICES'] = opt.gpu
     seed = 104
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
