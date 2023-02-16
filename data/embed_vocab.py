@@ -21,8 +21,8 @@ def get_vocabs(dict_path):
     enc_vocab, dec_vocab = vocs[0], vocs[1]
 
     print("From: %s" % dict_path)
-    print("\t* source vocab: %d words" % len(enc_vocab))
-    print("\t* target vocab: %d words" % len(dec_vocab))
+    print("\t* source vocab: %d words" % len(enc_vocab))    # LSMDC-E: 20699    # VIST-E: 26641
+    print("\t* target vocab: %d words" % len(dec_vocab))    # LSMDC-E: 7275     # VIST-E: 8745
 
     return enc_vocab, dec_vocab
 
@@ -84,14 +84,12 @@ def match_embeddings(vocab, emb, opt):
 
 def main():
     parser = argparse.ArgumentParser(description='embeddings_to_torch.py')
+    parser.add_argument('--dataset', type=str, default='LSMDC-E',
+                        help='dataset: VIST-E / LSMDC-E')
     parser.add_argument('-emb_file_enc', type=str, default='glove.6B.300d.txt',
                         help="source Embeddings from this file")
     parser.add_argument('-emb_file_dec', type=str, default='glove.6B.300d.txt',
                         help="target Embeddings from this file")
-    parser.add_argument('-output_file', type=str, default='LSMDC-E/embedding/embedding',
-                        help="Output file for the prepared data")
-    parser.add_argument('-dict_file', type=str, default='LSMDC-E/data_res.json',
-                        help="Dictionary file")
     parser.add_argument('-verbose', action="store_true", default=False)
     parser.add_argument('-skip_lines', type=int, default=0,
                         help="Skip first lines of the embedding file")
@@ -99,7 +97,7 @@ def main():
                         default="GloVe")
     opt = parser.parse_args()
 
-    enc_vocab, dec_vocab = get_vocabs(opt.dict_file)
+    enc_vocab, dec_vocab = get_vocabs(opt.dataset + '/data_res.json')
 
     skip_lines = 1 if opt.type == "word2vec" else opt.skip_lines
     src_vectors = read_embeddings(opt.emb_file_enc, skip_lines)
@@ -111,8 +109,8 @@ def main():
     filtered_dec_embeddings, dec_count = match_embeddings(
         dec_vocab, tgt_vectors, opt)
 
-    enc_output_file = opt.output_file + "_enc.pt"
-    dec_output_file = opt.output_file + "_dec.pt"
+    enc_output_file = opt.dataset + "/embedding/embedding_enc.pt"
+    dec_output_file = opt.dataset + "/embedding/embedding_dec.pt"
 
     torch.save(filtered_enc_embeddings, enc_output_file)
     torch.save(filtered_dec_embeddings, dec_output_file)
