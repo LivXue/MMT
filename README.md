@@ -27,13 +27,13 @@ __VIST-E__:
 3. Run `data/VIST-E/annotations.py`.
 4. Run `data/VIST-E/img_feat_path.py `.
 5. Run `data/VIST-E/pro_label.py`.
-6. Run `data/embed_vocab.py` and make sure the parameters are set to *VIST-E*.
+6. Run `data/embed_vocab.py` and make sure parameter `dataset` is set to *VIST-E*.
 
 __LSMDC-E__:
 1. Unzip *task1_2021.zip* to `data/LSMDC-E`.
 2. Unzip all resnet features in *resnet152_200.zip* to a folder `data/LSMDC-E/image_features` without any subfolders.
 3. Run `data/LSMDC-E/prepro_vocab.py`.
-4. Run `data/embed_vocab.py` and make sure the parameters are set to *LSMDC-E*.
+4. Run `data/embed_vocab.py` and make sure parameter `dataset` is set to *LSMDC-E*.
 
 ## Process
 1. Set parameters in `utils/opts.py`.
