@@ -84,15 +84,15 @@ def save_checkpoint(opt, model, infos, optimizer, histories=None, append=''):
     # if checkpoint_path doesn't exist
     if not os.path.isdir(opt.checkpoint_path):
         os.makedirs(opt.checkpoint_path)
-    checkpoint_path = os.path.join(opt.checkpoint_path, 'model%s.pth' % (append))
+    checkpoint_path = os.path.join(opt.checkpoint_path, 'model%s.pth' % append)
     torch.save(model.state_dict(), checkpoint_path)
     print("Model saved to {}".format(checkpoint_path))
-    optimizer_path = os.path.join(opt.checkpoint_path, 'optimizer%s.pth' % (append))
+    optimizer_path = os.path.join(opt.checkpoint_path, 'optimizer%s.pth' % append)
     torch.save(optimizer.state_dict(), optimizer_path)
-    with open(os.path.join(opt.checkpoint_path, 'infos_' + opt.id + '%s.pkl' % (append)), 'wb') as f:
+    with open(os.path.join(opt.checkpoint_path, 'infos_' + opt.id + '%s.pkl' % append), 'wb') as f:
         pickle_dump(infos, f)
     if histories:
-        with open(os.path.join(opt.checkpoint_path, 'histories_' + opt.id + '%s.pkl' % (append)), 'wb') as f:
+        with open(os.path.join(opt.checkpoint_path, 'histories_' + opt.id + '%s.pkl' % append), 'wb') as f:
             pickle_dump(histories, f)
 
 
@@ -147,7 +147,7 @@ def length_wu(length, logprobs, alpha=0.):
 
     modifier = (((5 + length) ** alpha) /
                 ((5 + 1) ** alpha))
-    return (logprobs / modifier)
+    return logprobs / modifier
 
 
 def length_average(length, logprobs, alpha=0.):

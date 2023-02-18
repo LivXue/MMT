@@ -5,6 +5,7 @@ import argparse
 def parse_opt():
     parser = argparse.ArgumentParser()
     # Data input settings
+    parser.add_argument('--gpu', type=str, default='3', help='id of GPU')
     parser.add_argument('--dataset', type=str, default='VIST-E',
                         help='dataset: VIST-E / LSMDC-E')
     parser.add_argument('--data_in_memory', action='store_true',
@@ -53,7 +54,7 @@ def parse_opt():
                         help='minibatch size')
     parser.add_argument('--grad_clip_mode', type=str, default='value',
                         help='value or norm')
-    parser.add_argument('--grad_clip_value', type=float, default=0.5,#0.1,
+    parser.add_argument('--grad_clip_value', type=float, default=0,     #0.1
                         help='clip gradients at this value/max_norm, 0 means no clipping')
     parser.add_argument('--drop_prob_lm', type=float, default=0.3,
                         help='strength of dropout in the Language Model RNN')
@@ -81,9 +82,9 @@ def parse_opt():
                         help='beta used for adam')
     parser.add_argument('--optim_epsilon', type=float, default=1e-8,
                         help='epsilon that goes into denominator for smoothing')
-    parser.add_argument('--weight_decay', type=float, default=1e-5,
+    parser.add_argument('--weight_decay', type=float, default=0,
                         help='weight_decay')
-    parser.add_argument('--early_stop', type=int, default=10,
+    parser.add_argument('--early_stop', type=int, default=5,
                         help='early stop number')
     parser.add_argument('--warmup', type=int, default=2,
                         help='warm up number')
@@ -99,7 +100,7 @@ def parse_opt():
                         help='Maximum scheduled sampling prob.')
 
     # BERT settings
-    parser.add_argument('--use_bert', type=bool, default=True,
+    parser.add_argument('--use_bert', type=bool, default=False,
                         help='If use BERT as the encoder.')
     parser.add_argument('--bert_architecture', type=str, default="bert-base-uncased",
                         help='BERT architecture.')
@@ -113,7 +114,7 @@ def parse_opt():
                         help='Do we load previous best score when resuming training.')
 
     # misc
-    parser.add_argument('--id', type=str, default='6',
+    parser.add_argument('--id', type=str, default='5',
                         help='an id identifying this run/job. used in cross-val and appended when writing progress files')
 
     # Used for self critical
