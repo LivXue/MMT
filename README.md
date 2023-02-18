@@ -17,7 +17,7 @@ __LSMDC-E__: download LSMDC 2021 version （*task1_2021.zip*, *resnet152_200.zip
 
 We utilize Glove embedding, please download the *glove.6b.300d.txt* and put it in `data/`.
 
-## Data preprocess
+## Data Preprocess
 
 __VIST-E__:
 1. Unzip *SIS-with-labels.tar.gz* to `data/VIST-E`.
