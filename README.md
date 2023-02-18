@@ -1,7 +1,5 @@
 # MMT: Image-guided Story Ending Generation with Multimodal Memory Transformer
 
-## __Repository unfinished__
-
 ##### Authors' code for paper "MMT: Image-guided Story Ending Generation with Multimodal Memory Transformer", ACMMM 2022.
 
 ## Prerequisites
@@ -44,11 +42,11 @@ __LSMDC-E__:
 
     VIST-E w BERT:
     ```bash
-    python train.py --dataset VIST-E --use_bert True --num_head 4 --weight_decay 0 --grad_clip_value 0.5
+    python train.py --dataset VIST-E --use_bert True --num_head 4 --weight_decay 0 --grad_clip_value 0
     ```
     VIST-E w/o BERT:
     ```bash
-    python train.py --dataset VIST-E --use_bert False --num_head 4 --weight_decay 0 --grad_clip_value 0.5
+    python train.py --dataset VIST-E --use_bert False --num_head 4 --weight_decay 1e-5 --grad_clip_value 0
     ```
     LSMDC-E w BERT:
     ```bash
