@@ -16,11 +16,11 @@ print("Successfully loaded Stanford-CoreNLP models!")
 
 
 def story_pro(annotations, params):
-    print('len_annotations: ', len(annotations))
+    print('len_annotations: ', len(annotations))    # 251000
 
     image_feat_num = params['image_features']
     img_feat_num = json.load(open(image_feat_num, 'r'))
-    print('len_feat_num: ', len(img_feat_num))
+    print('len_feat_num: ', len(img_feat_num))  # 209639
     count = 0
     story = []
 
@@ -94,7 +94,7 @@ def story_pro(annotations, params):
             order_last_img_id = img_id_list[4][0]
             story.append({'story_id': story_id,
                           'story_token_list': story_token_list,
-                          'stories_four': ordered_stories_four,#story_rep_four,
+                          'stories_four': ordered_stories_four,
                           'stories_last': ordered_stories_last,
                           'last_img_id': order_last_img_id,
                           'split': annotations[i][0]['split']})
@@ -165,7 +165,7 @@ def build_src_vocab(storys, params):
 
 
 def encode_story_four(storys, params, src_wtoi):
-    max_length = 40
+    max_length = params['max_length']
     first = []
     second = []
     third = []
@@ -223,7 +223,7 @@ def encode_story_four(storys, params, src_wtoi):
 
 
 def encode_story_last(storys, params, wtoi):
-    max_length = 40
+    max_length = params['max_length']
     N = len(storys)
     M = len(storys)
 
@@ -257,17 +257,9 @@ def encode_story_last(storys, params, wtoi):
 
 
 def main(params):
-    file = open(params['input_json'], 'r')
-    data = json.load(file)
-    anno = data
-    print(len(data))
-    print(anno[1])
-    #story = story_pro(anno, params)
-    story = json.load(open("story.json"))
-    file.close()
-    # file = open('story5.json', 'r')
-    # story = json.load(file)
-    # file.close()
+    anno = json.load(open(params['input_json'], 'r'))
+    print(len(anno))    # 251000
+    story = story_pro(anno, params)
 
     vocab = build_vocab(story, params)
     itow = {i: w for i, w in enumerate(vocab)}
@@ -278,7 +270,6 @@ def main(params):
     src_wtoi = {w: i for i, w in enumerate(src_vocab)}
 
     first, second, third, four = encode_story_four(story, params, src_wtoi)
-    # print('first_len: ', len(first))
     f_fe = h5py.File(params['output_h5_fe'] + '_label.h5', 'w')
     f_fe.create_dataset('sent1', dtype='uint32', data=first)
     f_fe.create_dataset('sent2', dtype='uint32', data=second)
@@ -288,21 +279,20 @@ def main(params):
     print('Saved story_four_wtoi!')
 
     L, label_start_ix, label_end_ix, label_length = encode_story_last(story, params, wtoi)
-    print('L_len:', len(L))
+    print('L_len:', len(L)) # 49899
     f_lb = h5py.File(params['output_h5'] + '_label.h5', 'w')
     f_lb.create_dataset('labels', dtype='uint32', data=L)
     f_lb.create_dataset('label_start_ix', dtype='uint32', data=label_start_ix)
     f_lb.create_dataset('label_end_ix', dtype='uint32', data=label_end_ix)
     f_lb.create_dataset('label_length', dtype='uint32', data=label_length)
     f_lb.close()
-    print('Down f_lb')
+    print('Saved f_lb')
 
     story_four = []
     for i, imgs in enumerate(story):
         story_four.append(imgs['stories_four'])
     with open(params['output_story_four'], 'w') as f_four:
         json.dump(story_four, f_four)
-    f_four.close()
     print('Saved story_four!')
 
     out = {}
@@ -322,11 +312,9 @@ def main(params):
 
     with open(params['output_json'], 'w') as ff:
         json.dump(out, ff)
-    ff.close()
 
     # json.dump(out, open(params['output_json'], 'w'))
     print('wrote', params['output_json'])
-    file.close()
 
 
 if __name__ == "__main__":
@@ -339,7 +327,7 @@ if __name__ == "__main__":
     parser.add_argument('--output_h5_fe', default='data_src', help='')
     parser.add_argument('--image_features', default='feat_num.json', help='')
 
-    parser.add_argument('--max_length', default=40, type=int, help='')
+    parser.add_argument('--max_length', default=40, type=int, help='max length of a sentence')
     parser.add_argument('--word_count_threshold', default=0, type=int, help='')
     parser.add_argument('--word_count_threshold_test', default=1, type=int, help='')
 
@@ -347,5 +335,3 @@ if __name__ == "__main__":
     params = vars(args)
 
     main(params)
-
-# nlp.close()
