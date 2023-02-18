@@ -66,9 +66,9 @@ def train(opt):
 
     lw_model = LossWrapper(model, opt)
     dp_model = torch.nn.DataParallel(model)
-    dp_model = dp_model.module
+    dp_model = dp_model.module  # for single GPU
     dp_lw_model = torch.nn.DataParallel(lw_model)
-    dp_lw_model = dp_lw_model.module
+    dp_lw_model = dp_lw_model.module  # for single GPU
 
     optimizer = utils.build_optimizer(model.parameters(), opt)
     # Load the optimizer
@@ -114,11 +114,11 @@ def train(opt):
             utils.set_lr(optimizer, opt.current_lr)
 
         running_loss = 0.0
-        # Load data from train split (0)
+        # Load data from train split
         for data in tqdm(loader.loaders['train']):
             iteration += 1
-            tmp = [data['fc_feats'], data['conv_feats'], data['labels'], data['masks'], data['conv_masks'], data['src1'],
-                data['src2'], data['src3'], data['src4']]
+            tmp = [data['fc_feats'], data['conv_feats'], data['labels'], data['masks'], data['conv_masks'],
+                   data['src1'], data['src2'], data['src3'], data['src4']]
             tmp = [_ if _ is None else _.cuda() for _ in tmp]
             fc_feats, conv_feats, labels, masks, conv_masks, src1, src2, src3, src4 = tmp
 
@@ -155,7 +155,8 @@ def train(opt):
         if lang_stats is not None:
             for k, v in lang_stats.items():
                 tb_summary_writer.add_scalar(k, v, epoch)
-        histories['val_result_history'][epoch] = {'loss': val_loss, 'lang_stats': lang_stats, 'predictions': predictions}
+        histories['val_result_history'][epoch] = {'loss': val_loss, 'lang_stats': lang_stats,
+                                                  'predictions': predictions}
 
         if opt.language_eval == 1:
             current_score = lang_stats['rSUM']

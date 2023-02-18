@@ -2,11 +2,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import numpy as np
-import torch
-import torch.nn as nn
 import torch.nn.functional as F
-from torch.nn.utils.rnn import PackedSequence, pack_padded_sequence, pad_packed_sequence
 
 from CaptionModel import CaptionModel
 from modules.sentence_tramsformer import *
