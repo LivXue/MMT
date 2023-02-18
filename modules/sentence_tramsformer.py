@@ -1,8 +1,6 @@
 import numpy as np
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-from torch.nn.utils.rnn import PackedSequence, pack_padded_sequence, pad_packed_sequence
 from transformers import BertModel
 
 
