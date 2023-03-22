@@ -15,7 +15,7 @@ def bleu_scores(gts, res, n=4):
     if type(score) == list:
         for i, s in enumerate(score):
             results['BLEU {}'.format(i + 1)] = s
-            results['BLEU {} scores'] = scores[i]
+            results['BLEU {} scores'.format(i + 1)] = scores[i]
     else:
         results['BLEU 1'] = score
         results['BLEU 1 scores'] = scores
