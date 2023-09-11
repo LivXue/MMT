@@ -2,6 +2,8 @@
 
 ##### Authors' code for paper "MMT: Image-guided Story Ending Generation with Multimodal Memory Transformer", ACMMM 2022.
 
+![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/mmt-image-guided-story-ending-generation-with/image-guided-story-ending-generation-on-vist) ![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/mmt-image-guided-story-ending-generation-with/image-guided-story-ending-generation-on-lsmdc)
+
 ## Prerequisites
 
 - Python == 3.9
